@@ -43,12 +43,12 @@ ALTER TABLE board
 -- 테이블 생성 SQL - comment
 CREATE TABLE comment
 (
-    `board_id`     INT             NOT NULL    AUTO_INCREMENT COMMENT '게시판 아이디', 
-    `comment_id`   INT             NOT NULL    AUTO_INCREMENT COMMENT '댓글 아이디', 
-    `user_id`      VARCHAR(320)    NOT NULL    COMMENT '작성자 아이디', 
-    `content`      VARCHAR(400)    NOT NULL    COMMENT '내용', 
-    `upload_date`  DATE            NOT NULL    COMMENT '작성날짜', 
-     PRIMARY KEY (board_id, comment_id)
+    `comment_id`   INT             NOT NULL    AUTO_INCREMENT COMMENT '댓글 아이디',
+    `board_id`     INT             NOT NULL    COMMENT '게시판 아이디',
+    `user_id`      VARCHAR(320)    NOT NULL    COMMENT '작성자 아이디',
+    `content`      VARCHAR(400)    NOT NULL    COMMENT '내용',
+    `upload_date`  DATE            NOT NULL    COMMENT '작성날짜',
+    PRIMARY KEY (comment_id)
 );
 
 -- 테이블 Comment 설정 SQL - comment
