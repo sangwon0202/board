@@ -2,20 +2,18 @@ package com.example.board.Controller;
 
 import com.example.board.DTO.Board;
 import com.example.board.repository.BoardRepository;
-import com.example.board.repository.CommentRepository;
 import com.example.board.repository.UserRepository;
 import com.example.board.service.CommentListWithNicknameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("board")
+@RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -37,4 +35,26 @@ public class BoardController {
 
         return "board";
     }
+
+    @GetMapping("/upload")
+    public String uploadForm() {
+        return "upload";
+    }
+
+    @PostMapping("/upload")
+    public String upload (@RequestParam String userId,
+                          @RequestParam String title,
+                          @RequestParam String content) {
+        Board board = new Board();
+        board.setUserId(userId);
+        board.setTitle(title);
+        board.setContent(content);
+        board.setUploadDate(new Date());
+
+        board = boardRepository.insertBoard(board);
+        if(board.getBoardId() == 0) return "error";
+        return "redirect:/main";
+    }
+
+
 }

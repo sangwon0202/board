@@ -7,7 +7,7 @@
     <link th:href="@{/main.css}" rel="stylesheet" />
 </head>
 <body>
-
+    <a href="/board/upload">글쓰기</a>
     <table class="styled-table">
         <thead>
             <tr>
@@ -20,8 +20,10 @@
             <tr th:each="boardInfo : ${boardInfoList}">
                 <td class="name" th:text = "${boardInfo.nickname}">상원</td>
                 <td class= "title">
-                    <span>[[${boardInfo.title}]]</span>
-                    <span class = "commentCount">([[${boardInfo.commentCount}]])</span>
+                    <a th:href="@{/board(boardId=${boardInfo.getBoardId()})}">
+                        <span>[[${boardInfo.title}]]</span>
+                        <span class = "commentCount">([[${boardInfo.commentCount}]])</span>
+                    </a>
                 </td>
                 <td class="date" th:text = "${boardInfo.uploadDate}">2024-02-12</td>
             </tr>
