@@ -10,4 +10,5 @@ public interface CommentRepository {
 
     List<Comment> getCommentsByBoardId(int boardId);
     Comment insertComment(Comment comment);
+
 }

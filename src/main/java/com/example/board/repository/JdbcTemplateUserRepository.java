@@ -18,6 +18,15 @@ import java.util.Optional;
 public class JdbcTemplateUserRepository implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
+
+    @Override
+    public String transformUserIdToNickname(String userId) {
+        List<User> result = jdbcTemplate.query("select * from user where user_id = ?", userRowMapper(), userId);
+        Optional<User> user = result.stream().findAny();
+        if(user.isPresent()) return user.get().getNickname();
+        else return "NULL";
+    }
+
     @Override
     public Optional<User> getUserByUserId(String userId) {
         List<User> result = jdbcTemplate.query("select * from user where user_id = ?", userRowMapper(), userId);

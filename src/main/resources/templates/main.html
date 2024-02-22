@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body>
+
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>작성자</th>
+                <th>제목</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="boardInfo : ${boardInfoList}">
+                <td class="name" th:text = "${boardInfo.nickname}">상원</td>
+                <td class= "title">
+                    <span>[[${boardInfo.title}]]</span>
+                    <span class = "commentCount">([[${boardInfo.commentCount}]])</span>
+                </td>
+                <td class="date" th:text = "${boardInfo.uploadDate}">2024-02-12</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</body>
+</html>

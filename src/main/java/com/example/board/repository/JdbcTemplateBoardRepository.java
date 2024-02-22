@@ -42,6 +42,12 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
         return board;
     }
 
+    @Override
+    public List<Board> getAllBoards() {
+        List<Board> result = jdbcTemplate.query("select * from board", boardRowMapper());
+        return result;
+    }
+
     private RowMapper<Board> boardRowMapper() {
         return (rs, rowNum) -> {
             Board board = new Board();
