@@ -13,11 +13,11 @@
   </p>
 
   <h2>댓글 목록</h2>
-  <div th:each="commentWithNickname : ${commentListWithNickname}">
+  <div th:each="comment : ${board.commentList}">
       <div>
-        <div>작성자: [[${commentWithNickname.nickname}]]</div>
-        <div>작성날짜: [[${commentWithNickname.comment.uploadDate}]]</div>
-        <p th:text="${commentWithNickname.comment.content}">
+        <div>작성자: [[${comment.nickname}]]</div>
+        <div>작성날짜: [[${comment.uploadDate}]]</div>
+        <p th:text="${comment.content}">
           댓글 내용
         </p>
       </div>

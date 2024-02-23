@@ -1,20 +1,18 @@
 package com.example.board.repository;
 
-import com.example.board.DTO.User;
+import com.example.board.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 
 @SpringBootTest
 class JdbcTemplateUserRepositoryTest {
 
     @Autowired
-    private JdbcTemplateUserRepository jdbcTemplateUserRepository;
+    private UserRepository jdbcTemplateUserRepository;
 
     @Test
     @DisplayName("사용자 추가 및 사용자 조회")

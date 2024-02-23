@@ -17,15 +17,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="boardInfo : ${boardInfoList}">
-                <td class="name" th:text = "${boardInfo.nickname}">상원</td>
+            <tr th:each="board : ${boardList}">
+                <td class="name" th:text = "${board.nickname}">상원</td>
                 <td class= "title">
-                    <a th:href="@{/board(boardId=${boardInfo.getBoardId()})}">
-                        <span>[[${boardInfo.title}]]</span>
-                        <span class = "commentCount">([[${boardInfo.commentCount}]])</span>
+                    <a th:href="@{/board(boardId=${board.boardId})}">
+                        <span>[[${board.title}]]</span>
+                        <span class = "commentCount">([[${board.commentCount}]])</span>
                     </a>
                 </td>
-                <td class="date" th:text = "${boardInfo.uploadDate}">2024-02-12</td>
+                <td class="date" th:text = "${board.uploadDate}">2024-02-12</td>
             </tr>
         </tbody>
     </table>

@@ -1,6 +1,6 @@
 package com.example.board.repository;
 
-import com.example.board.DTO.Board;
+import com.example.board.entity.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class JdbcTemplateBoardRepositoryTest {
 
     @Autowired
-    private JdbcTemplateBoardRepository jdbcTemplateBoardRepository;
+    private BoardRepository jdbcTemplateBoardRepository;
 
     @Test
     @DisplayName("게시판 추가 및 게시판 아이디로 조회")

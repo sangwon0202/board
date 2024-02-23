@@ -1,9 +1,10 @@
 package com.example.board.Controller;
 
-import com.example.board.DTO.Board;
-import com.example.board.repository.BoardRepository;
-import com.example.board.repository.UserRepository;
-import com.example.board.service.CommentListWithNicknameService;
+import com.example.board.DTO.BoardUploadDto;
+import com.example.board.DTO.BoardViewDto;
+import com.example.board.entity.Board;
+import com.example.board.service.BoardUploadService;
+import com.example.board.service.BoardViewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,22 +18,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardController {
 
-    private final BoardRepository boardRepository;
-    private final CommentListWithNicknameService commentListWithNicknameService;
-    private final UserRepository userRepository;
+    private final BoardViewService boardViewService;
+    private final BoardUploadService boardUploadService;
 
     @GetMapping()
     public String board(@RequestParam int boardId, Model model) {
 
-        Optional<Board> optionalBoard = boardRepository.getBoardByBoardId(boardId);
-        if(!optionalBoard.isPresent()) {
-            model.addAttribute("errorMessage", "존재하지 않는 게시글입니다.");
-        }
-        Board board = optionalBoard.get();
-        model.addAttribute("board", board);
-        model.addAttribute("commentListWithNickname", commentListWithNicknameService.getCommentListWithNickname(boardId));
-        model.addAttribute("nickname", userRepository.transformUserIdToNickname(board.getUserId()));
-
+        BoardViewDto boardViewDto = boardViewService.getBoardViewByBoardId(boardId);
+        model.addAttribute("board", boardViewDto);
         return "board";
     }
 
@@ -45,14 +38,11 @@ public class BoardController {
     public String upload (@RequestParam String userId,
                           @RequestParam String title,
                           @RequestParam String content) {
-        Board board = new Board();
-        board.setUserId(userId);
-        board.setTitle(title);
-        board.setContent(content);
-        board.setUploadDate(new Date());
-
-        board = boardRepository.insertBoard(board);
-        if(board.getBoardId() == 0) return "error";
+        BoardUploadDto boardUploadDto = new BoardUploadDto();
+        boardUploadDto.setUserId(userId);
+        boardUploadDto.setTitle(title);
+        boardUploadDto.setContent(content);
+        boardUploadService.boardUpload(boardUploadDto);
         return "redirect:/main";
     }
 

@@ -5,11 +5,12 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class BoardInfo {
-    private int boardId;
-    private String nickname;
-    private String title;
-    private Date uploadDate;
+public class BoardMetaDto {
 
+    private String title;
+    private String Nickname;
     private int commentCount;
+    private Date uploadDate;
+    private int boardId;
+
 }

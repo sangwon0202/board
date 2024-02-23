@@ -1,6 +1,6 @@
 package com.example.board.repository;
 
-import com.example.board.DTO.Comment;
+import com.example.board.entity.Comment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import java.util.Date;
 class JdbcTemplateCommentRepositoryTest {
 
     @Autowired
-    JdbcTemplateCommentRepository jdbcTemplateCommentRepository;
+    CommentRepository jdbcTemplateCommentRepository;
 
     @Test
     @DisplayName("댓글 추가하고 댓글 조회하기")
