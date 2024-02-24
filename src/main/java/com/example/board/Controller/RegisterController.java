@@ -29,6 +29,24 @@ public class RegisterController {
                                  @RequestParam String password,
                                  @RequestParam String nickname,
                                  Model model) {
+
+        if(userId.length() == 0) {
+            model.addAttribute("message", "아이디를 입력해주세요.");
+            model.addAttribute("url", "/register");
+            return "alert";
+        }
+        if(password.length() == 0) {
+            model.addAttribute("message", "비밀번호를 입력해주세요.");
+            model.addAttribute("url", "/register");
+            return "alert";
+        }
+        if(nickname.length() == 0) {
+            model.addAttribute("message", "닉네임을 입력해주세요.");
+            model.addAttribute("url", "/register");
+            return "alert";
+        }
+
+
         RegisterFormDto registerFormDto = new RegisterFormDto();
         registerFormDto.setUserId(userId);
         registerFormDto.setPassword(password);

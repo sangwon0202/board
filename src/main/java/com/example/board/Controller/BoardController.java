@@ -66,20 +66,32 @@ public class BoardController {
                           Model model) {
 
         HttpSession session = request.getSession();
-        if(session.getAttribute("loginInfo") != null) {
-            String userId = ((LoginInfoDto)session.getAttribute("loginInfo")).getUserId();
-            BoardUploadDto boardUploadDto = new BoardUploadDto();
-            boardUploadDto.setUserId(userId);
-            boardUploadDto.setTitle(title);
-            boardUploadDto.setContent(content);
-            boardUploadService.boardUpload(boardUploadDto);
-            return "redirect:/board";
-        }
-        else {
-            model.addAttribute("message","로그인이 필요합니다");
-            model.addAttribute("url","/login");
+
+        if(session.getAttribute("loginInfo") == null) {
+            model.addAttribute("message", "로그인이 필요합니다");
+            model.addAttribute("url", "/login");
             return "alert";
         }
+
+        if(title.length() == 0) {
+            model.addAttribute("message", "제목을 입력해주세요.");
+            model.addAttribute("url", "/upload");
+            return "alert";
+        }
+        if(content.length() == 0) {
+            model.addAttribute("message", "내용을 입력해주세요.");
+            model.addAttribute("url", "/upload");
+            return "alert";
+        }
+
+        // 업로드 성공
+        String userId = ((LoginInfoDto)session.getAttribute("loginInfo")).getUserId();
+        BoardUploadDto boardUploadDto = new BoardUploadDto();
+        boardUploadDto.setUserId(userId);
+        boardUploadDto.setTitle(title);
+        boardUploadDto.setContent(content);
+        boardUploadService.boardUpload(boardUploadDto);
+        return "redirect:/board";
     }
 
     @PostMapping("/comment")
@@ -91,22 +103,28 @@ public class BoardController {
     ) {
 
         HttpSession session = request.getSession();
-        if(session.getAttribute("loginInfo") != null) {
-            CommentUploadDto commentUploadDto = new CommentUploadDto();
-            String userId = ((LoginInfoDto)session.getAttribute("loginInfo")).getUserId();
-            commentUploadDto.setUserId(userId);
-            commentUploadDto.setBoardId(boardId);
-            commentUploadDto.setContent(content);
-            commentUploadService.CommentUpload(commentUploadDto);
 
-            redirectAttributes.addAttribute("boardId", boardId);
-            return "redirect:/board/{boardId}";
-        }
-        else {
+        if(session.getAttribute("loginInfo") == null) {
             model.addAttribute("message","로그인이 필요합니다");
             model.addAttribute("url","/login");
             return "alert";
         }
+
+        if(content.length() == 0) {
+            model.addAttribute("message", "댓글을 입력해주세요.");
+            model.addAttribute("url", "/board/" + boardId);
+            return "alert";
+        }
+
+        CommentUploadDto commentUploadDto = new CommentUploadDto();
+        String userId = ((LoginInfoDto)session.getAttribute("loginInfo")).getUserId();
+        commentUploadDto.setUserId(userId);
+        commentUploadDto.setBoardId(boardId);
+        commentUploadDto.setContent(content);
+        commentUploadService.CommentUpload(commentUploadDto);
+
+        redirectAttributes.addAttribute("boardId", boardId);
+        return "redirect:/board/{boardId}";
     }
 
 }

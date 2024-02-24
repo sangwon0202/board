@@ -28,7 +28,7 @@
 <!-- 게시물 번호가 주어졌을 경우만 사용자에게 보여짐-->
 <div th:if="${board != null}">
     <h1 th:text="${board.title}">게시글 제목</h1>
-    <div>작성자: [[${nickname}]]</div>
+    <div>작성자: [[${board.nickname}]]</div>
     <div>작성날짜: [[${board.uploadDate}]]</div>
     <p th:text="${board.content}">
         게시글 내용

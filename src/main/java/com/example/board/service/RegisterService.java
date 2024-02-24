@@ -16,20 +16,22 @@ public class RegisterService {
     public RegisterResultDto register(RegisterFormDto registerFormDto) {
 
         RegisterResultDto registerResultDto = new RegisterResultDto();
+
         // 기존 아이디와 중복될 경우
         if(userRepository.getUserByUserId(registerFormDto.getUserId()).isPresent()) {
             registerResultDto.setResult(false);
             registerResultDto.setMessage("아이디가 중복되었습니다.");
+            return registerResultDto;
         }
-        else {
-            User user = new User();
-            user.setUserId(registerFormDto.getUserId());
-            user.setNickname(registerFormDto.getNickname());
-            user.setPassword(registerFormDto.getPassword());
 
-            userRepository.insertUser(user);
-            registerResultDto.setResult(true);
-        }
+        User user = new User();
+        user.setUserId(registerFormDto.getUserId());
+        user.setNickname(registerFormDto.getNickname());
+        user.setPassword(registerFormDto.getPassword());
+
+        userRepository.insertUser(user);
+        registerResultDto.setResult(true);
+
         return registerResultDto;
     }
 
