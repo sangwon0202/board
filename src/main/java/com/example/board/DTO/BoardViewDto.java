@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class BoardViewDto {
 
+    private int boardId;
     private String title;
     private String Nickname;
     private String content ;

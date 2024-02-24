@@ -3,25 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/board.css}" rel="stylesheet" />
 </head>
 <body>
-  <h1 th:text="${board.title}">게시글 제목</h1>
-  <div>작성자: [[${nickname}]]</div>
-  <div>작성날짜: [[${board.uploadDate}]]</div>
-  <p th:text="${board.content}">
-    게시글 내용
-  </p>
 
-  <h2>댓글 목록</h2>
-  <div th:each="comment : ${board.commentList}">
-      <div>
-        <div>작성자: [[${comment.nickname}]]</div>
-        <div>작성날짜: [[${comment.uploadDate}]]</div>
-        <p th:text="${comment.content}">
-          댓글 내용
-        </p>
-      </div>
-  </div>
+<div th:if="${session.loginInfo != null}">
+
+
+</div>
+
+<!-- 로그인 되었을 때-->
+<div th:if="${session.loginInfo != null}">
+    <h3>[[${session.loginInfo.nickname}]]님 환영합니다!</h3>
+    <a href="/login/logout">로그아웃</a>
+</div>
+
+<div th:unless="${session.loginInfo != null}">
+    <a href="/login">로그인</a>
+</div>
+
+
+
+<!-- 게시물 번호가 주어졌을 경우만 사용자에게 보여짐-->
+<div th:if="${board != null}">
+    <h1 th:text="${board.title}">게시글 제목</h1>
+    <div>작성자: [[${nickname}]]</div>
+    <div>작성날짜: [[${board.uploadDate}]]</div>
+    <p th:text="${board.content}">
+        게시글 내용
+    </p>
+
+    <h2>댓글</h2>
+
+    <form action="/board/comment" method="post">
+        내용 : <br><textarea name="content" rows="4" cols="50"></textarea>
+        <input type="hidden" name="boardId" th:value="${board.boardId}">
+        <input type="submit">
+    </form>
+
+    <div th:each="comment : ${board.commentList}">
+        <div>
+            <div>작성자: [[${comment.nickname}]]</div>
+            <div>작성날짜: [[${comment.uploadDate}]]</div>
+            <p th:text="${comment.content}">
+                댓글 내용
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<a href="/board/upload">글쓰기</a>
+<table class="styled-table">
+    <thead>
+    <tr>
+        <th>작성자</th>
+        <th>제목</th>
+        <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boardList}">
+        <td class="name" th:text = "${board.nickname}">상원</td>
+        <td class= "title">
+            <a th:href="@{/board/{boardId}(boardId=${board.boardId})}">
+                <span>[[${board.title}]]</span>
+                <span class = "commentCount">([[${board.commentCount}]])</span>
+            </a>
+        </td>
+        <td class="date" th:text = "${board.uploadDate}">2024-02-12</td>
+    </tr>
+    </tbody>
+</table>
+
 
 </body>
 </html>

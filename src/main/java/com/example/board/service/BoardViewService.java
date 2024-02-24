@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +28,7 @@ public class BoardViewService {
         Board board = boardRepository.getBoardByBoardId(boardId).get();
         String nickname = userRepository.getNicknameByUserId(board.getUserId());
 
+        boardView.setBoardId(boardId);
         boardView.setTitle(board.getTitle());
         boardView.setNickname(nickname);
         boardView.setUploadDate(board.getUploadDate());
@@ -43,8 +42,8 @@ public class BoardViewService {
             String commentNickname = userRepository.getNicknameByUserId(comment.getUserId());
 
             commentViewDto.setNickname(commentNickname);
-            commentViewDto.setUploadDate(board.getUploadDate());
-            commentViewDto.setContent(board.getContent());
+            commentViewDto.setUploadDate(comment.getUploadDate());
+            commentViewDto.setContent(comment.getContent());
 
             commentViewDtoList.add(commentViewDto);
         }
