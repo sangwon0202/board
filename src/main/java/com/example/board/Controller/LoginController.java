@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,9 @@ public class LoginController {
     private final LoginValidationService loginValidationService;
 
     @GetMapping()
-    String loginForm(HttpServletRequest request) {
+    public String loginForm(HttpServletRequest request) {
         HttpSession session = request.getSession();
+        // 이미 로그인 중인 경우
         if(session.getAttribute("loginInfo") !=  null) {
             return "redirect:/board";
         }
@@ -28,22 +30,26 @@ public class LoginController {
     }
 
     @PostMapping()
-    String loginAction(@RequestParam String userId, @RequestParam String password,
-                       HttpServletRequest request) {
+    public String loginAction(@RequestParam String userId, @RequestParam String password,
+                              HttpServletRequest request, Model model) {
         LoginInfoDto loginInfoDto = loginValidationService.loginValidation(userId, password);
+        // 로그인 성공
         if(loginInfoDto != null) {
             HttpSession session = request.getSession();
             session.setAttribute("loginInfo", loginInfoDto);
             return "redirect:/board";
         }
+        // 로그인 실패 (아이디 비밀번호 안맞음)
         else {
-            return "redirect:/login";
+            model.addAttribute("message","아이디 비밀번호가 맞지 않습니다.");
+            model.addAttribute("url","/login");
+            return "alert";
         }
 
     }
 
     @GetMapping("/logout")
-    String logoutAction(HttpServletRequest request) {
+    public String logoutAction(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if(session.getAttribute("loginInfo") !=  null) {
             session.removeAttribute("loginInfo");

@@ -45,13 +45,17 @@ public class BoardController {
     }
 
     @GetMapping("/upload")
-    public String uploadForm(HttpServletRequest request) {
+    public String uploadForm(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        // 로그인이 되어 있을 경우
         if(session.getAttribute("loginInfo") != null) {
             return "upload";
         }
+        // 로그인이 되어 있지 않을 경우
         else {
-            return "redirect:/login";
+            model.addAttribute("message","게시글 작성 전 로그인을 해주세요.");
+            model.addAttribute("url","/login");
+            return "alert";
         }
     }
 
@@ -59,7 +63,7 @@ public class BoardController {
     public String upload (HttpServletRequest request,
                           @RequestParam String title,
                           @RequestParam String content,
-                          RedirectAttributes redirectAttributes) {
+                          Model model) {
 
         HttpSession session = request.getSession();
         if(session.getAttribute("loginInfo") != null) {
@@ -72,18 +76,18 @@ public class BoardController {
             return "redirect:/board";
         }
         else {
-            redirectAttributes.addAttribute("failMessage", "게시글을 업로드하려면 로그인이 필요합니다.");
-            return "redirect:/login";
+            model.addAttribute("message","로그인이 필요합니다");
+            model.addAttribute("url","/login");
+            return "alert";
         }
-
-
     }
 
     @PostMapping("/comment")
     public String comment (@RequestParam int boardId,
                           @RequestParam String content,
                            HttpServletRequest request,
-                           RedirectAttributes redirectAttributes
+                           RedirectAttributes redirectAttributes,
+                           Model model
     ) {
 
         HttpSession session = request.getSession();
@@ -99,7 +103,9 @@ public class BoardController {
             return "redirect:/board/{boardId}";
         }
         else {
-            return "redirect:/login";
+            model.addAttribute("message","로그인이 필요합니다");
+            model.addAttribute("url","/login");
+            return "alert";
         }
     }
 
